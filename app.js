@@ -1,12 +1,13 @@
-let cfg = 
-{
-    client: "sqlite3",
-    connection: 
-    {
-        filename: "./book.db"
-    }
-};
-
+let cfg = require("./knex-cfg").sqlite;
 let knex = require("knex")(cfg);
-knex.destroy();
-console.log("Done");
+
+knex.select("title", "rating").from("book").asCallback(function(err, rows)
+{
+    if(err) { console.error(err); }
+    else
+    {
+        console.log(rows);
+    }
+    knex.destroy();
+    console.log("Done");
+});
